@@ -164,7 +164,7 @@ CodebarAg\LaravelInstagram\Data\InstagramUser {
 ```php
 CodebarAg\LaravelInstagram\Data\InstagramImage {
     id: '123456789'                                             // string
-    media_type: 'IMAGE'|'CAROUSEL_ALBUM'                        // string
+    media_type: 'CAROUSEL_ALBUM'|'IMAGE'                        // string
     media_url: 'https://instagram-link.com'                     // string
     permalink: 'https://instagram-link.com'                     // string
     timestamp: '2022-01-01T00:00:00+00:00'                      // CarbonImmutable
@@ -176,7 +176,7 @@ CodebarAg\LaravelInstagram\Data\InstagramImage {
             media_url: 'https://instagram-link.com'             // string
             permalink: 'https://instagram-link.com'             // string
             timestamp: '2022-01-01T00:00:00+00:00'              // CarbonImmutable
-            caption: 'This is a caption'                        // null|string
+            caption: null                                       // null
             children: null                                      // null
         }
     ]
