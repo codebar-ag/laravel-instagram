@@ -141,6 +141,48 @@ $response = $connector->send(new GetInstagramMedia(withChildren: false));
 $media = $response->dto(); // returns a collection of \CodebarAg\LaravelInstagram\DTO\InstagramImage
 ```
 
+## DTO Showcase
+
+### InstagramUser
+
+```php
+CodebarAg\LaravelInstagram\Data\InstagramUser {
+    id: '987654321'                                             // string
+    user_id: '123456789'                                        // string               
+    username: 'john_doe'                                        // string
+    name: 'John Doe'                                            // string
+    account_type: 'BUSINESS'                                    // string
+    profile_picture_url: https://instagram-link.com             // string
+    followers_count: 200                                        // int
+    follows_count: 100                                          // int
+    media_count: 1                                              // int
+}
+```
+
+### InstagramImage
+
+```php
+CodebarAg\LaravelInstagram\Data\InstagramImage {
+    id: '123456789'                                             // string
+    media_type: 'IMAGE'|'CAROUSEL_ALBUM'                        // string
+    media_url: 'https://instagram-link.com'                     // string
+    permalink: 'https://instagram-link.com'                     // string
+    timestamp: '2022-01-01T00:00:00+00:00'                      // CarbonImmutable
+    caption: 'This is a caption'                                // null|string
+    children: [                                                 // null|Collection
+        CodebarAg\LaravelInstagram\Data\InstagramImage {
+            id: '123456798'                                     // string
+            media_type: 'IMAGE'                                 // string
+            media_url: 'https://instagram-link.com'             // string
+            permalink: 'https://instagram-link.com'             // string
+            timestamp: '2022-01-01T00:00:00+00:00'              // CarbonImmutable
+            caption: 'This is a caption'                        // null|string
+            children: null                                      // null
+        }
+    ]
+}
+```
+
 ## Testing
 
 ```bash
