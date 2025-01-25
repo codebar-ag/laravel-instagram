@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace CodebarAg\LaravelInstagram\Requests;
 
+use CodebarAg\LaravelInstagram\Data\InstagramUser;
+use CodebarAg\LaravelInstagram\Responses\CreateInstagramUserFromResponse;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Http\Response;
 use Saloon\Traits\Plugins\AcceptsJson;
 
 class GetInstagramMe extends Request
@@ -38,5 +41,10 @@ class GetInstagramMe extends Request
         return [
             'fields' => implode(',', $fields),
         ];
+    }
+
+    public function createDtoFromResponse(Response $response): InstagramUser
+    {
+        return CreateInstagramUserFromResponse::fromResponse($response);
     }
 }
