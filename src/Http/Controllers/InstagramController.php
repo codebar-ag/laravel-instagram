@@ -50,6 +50,8 @@ class InstagramController
 
         $json = $response->json();
 
+        ray($json);
+
         Cache::store(config('instagram.cache_store'))->put('instagram.authenticated', $json, now()->addDays(60));
 
         return response('Authenticated Instagram account: '.Arr::get($json, 'username'), 200);

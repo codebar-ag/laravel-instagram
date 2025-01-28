@@ -20,6 +20,7 @@ class GetInstagramMedia extends Request
 
     public function __construct(
         protected bool $withChildren = true,
+        protected mixed $user_id = null,
     ) {}
 
     /**
@@ -27,7 +28,13 @@ class GetInstagramMedia extends Request
      */
     public function resolveEndpoint(): string
     {
-        return InstagramHandler::user()->user_id.'/media';
+        $user_id = $this->user_id;
+
+        if (empty($user_id)) {
+            $user_id = InstagramHandler::user()->user_id;
+        }
+
+        return $user_id.'/media';
     }
 
     public function defaultQuery(): array

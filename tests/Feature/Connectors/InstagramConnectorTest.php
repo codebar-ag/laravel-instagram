@@ -20,34 +20,24 @@ test('can getAuthorizationUrl', function () {
         ->toContain('scope=instagram_business_basic,instagram_business_manage_messages,instagram_business_manage_comments,instagram_business_content_publish');
 })->group('authorization');
 
-test(/**
- * @throws \Saloon\Exceptions\OAuthConfigValidationException
- * @throws \Saloon\Exceptions\InvalidStateException
- * @throws DateMalformedIntervalStringException
- */ 'can getAccessToken', function () {
+test('can getAccessToken', function () {
     MockClient::global([
-        GetShortLivedAccessTokenRequest::class => MockResponse::make(
-            body: [
-                'access_token' => 'some_short_access_token',
-                'user_id' => 12345678901234567,
-                'permissions' => [
-                    'instagram_business_basic',
-                    'instagram_business_manage_messages',
-                    'instagram_business_content_publish',
-                    'instagram_business_manage_insights',
-                    'instagram_business_manage_comments',
-                ],
+        GetShortLivedAccessTokenRequest::class => MockResponse::make([
+            'access_token' => 'some_short_access_token',
+            'user_id' => 12345678901234567,
+            'permissions' => [
+                'instagram_business_basic',
+                'instagram_business_manage_messages',
+                'instagram_business_content_publish',
+                'instagram_business_manage_insights',
+                'instagram_business_manage_comments',
             ],
-            status: 200
-        ),
-        GetAccessTokenRequest::class => MockResponse::make(
-            body: [
-                'access_token' => 'some_long_access_token',
-                'refresh_token' => 'some_refresh_token',
-                'expires_in' => 5184000,
-            ],
-            status: 200
-        ),
+        ]),
+        GetAccessTokenRequest::class => MockResponse::make([
+            'access_token' => 'some_long_access_token',
+            'refresh_token' => 'some_refresh_token',
+            'expires_in' => 5184000,
+        ]),
     ]);
 
     $connector = new InstagramConnector;
@@ -74,4 +64,4 @@ test(/**
         ->refreshToken->toBe('some_refresh_token')
         ->expiresAt->toBeInstanceOf(DateTimeImmutable::class)
         ->expiresAt->format('Y-m-d H:i:s')->toBe($date->format('Y-m-d H:i:s'));
-});
+})->group('authorization');
