@@ -89,6 +89,44 @@ INSTAGRAM_CLIENT_ID=your-client-id
 INSTAGRAM_CLIENT_SECRET=your-client-secret
 ```
 
+## Overriding the default routes
+
+If you want to override the default routes, you can do so by creating a `instagram.php` file in your routes directory and adding the following code:
+
+```php
+<?php
+
+use CodebarAg\LaravelInstagram\Http\Controllers\InstagramController;
+use Illuminate\Support\Facades\Route;
+
+Route::prefix('instagram')->name('instagram.')->group(function () {
+    Route::get('/auth', [InstagramController::class, 'auth'])->name('auth');
+
+    Route::get('/callback', [InstagramController::class, 'callback'])->name('callback');
+});
+```
+
+Then you should register the routes in your `bootstrap\app.php`:
+
+```php
+    ->withRouting(
+        web: __DIR__ . '/../routes/web.php',
+        //        api: __DIR__ . '/../routes/api.php',
+        then: function () {
+            Route::middleware('web')->group(base_path('routes/instagram.php'));
+        },
+    )
+```
+
+or in your `RouteServiceProvider`:
+
+```php
+$this->routes(function () {
+    Route::middleware('web')->group(base_path('routes/web.php'));
+    Route::middleware('web')->group(base_path('routes/instagram.php'));
+});
+```
+
 You can get your client id and client secret by registering your app on the [Instagram Developer Portal](https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login)
 
 When configuring your app on the Instagram Developer Portal, you will need to set the redirect uri to: `http://your-app-url.com/instagram/callback`
