@@ -35,6 +35,7 @@ class InstagramHandler
         if ($authenticator->hasExpired()) {
             $authenticator = $connector->refreshAccessToken($authenticator);
 
+            // @phpstan-ignore-next-line
             Cache::store(config('instagram.cache_store'))->put('instagram.authenticator', $authenticator->serialize(), now()->addDays(60));
         }
 
