@@ -34,8 +34,8 @@ class InstagramController
 
         $connector = new InstagramConnector;
         $shortLivedAuthenticator = $connector->getShortLivedAccessToken(code: $request->get('code'));
-        $authenticator = $connector->getAccessToken(code: $shortLivedAuthenticator->accessToken);
-        $serialized = $authenticator->serialize();
+        $authenticator = $connector->getAccessToken(code: $shortLivedAuthenticator->accessToken); // @phpstan-ignore-line
+        $serialized = $authenticator->serialize(); // @phpstan-ignore-line
 
         Cache::store(config('instagram.cache_store'))->put('instagram.authenticator', $serialized, now()->addDays(60));
 
@@ -49,8 +49,6 @@ class InstagramController
         }
 
         $json = $response->json();
-
-        ray($json);
 
         Cache::store(config('instagram.cache_store'))->put('instagram.authenticated', $json, now()->addDays(60));
 

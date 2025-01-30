@@ -39,10 +39,8 @@ class GetAccessTokenRequest extends Request
      *
      * @return array{
      *     grant_type: string,
-     *     code: string,
-     *     client_id: string,
+     *     access_token: string,
      *     client_secret: string,
-     *     redirect_uri: string,
      * }
      */
     public function defaultQuery(): array

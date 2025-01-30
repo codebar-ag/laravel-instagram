@@ -27,7 +27,7 @@ final class InstagramUser
         public string $username,
         public string $name,
         public string $account_type,
-        public string $profile_picture_url,
+        public ?string $profile_picture_url,
         public int $followers_count,
         public int $follows_count,
         public int $media_count,
