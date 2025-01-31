@@ -6,7 +6,6 @@ namespace CodebarAg\LaravelInstagram\Requests;
 
 use CodebarAg\LaravelInstagram\Actions\InstagramHandler;
 use CodebarAg\LaravelInstagram\Responses\CreateMediaCollectionFromResponse;
-use Illuminate\Support\Collection;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Http\Response;
@@ -83,6 +82,6 @@ class GetInstagramBusinessDiscoveryMedia extends Request
     public function createDtoFromResponse(Response $response): mixed
     {
         return $response->json();
-//        return CreateMediaCollectionFromResponse::fromResponse($response);
+        //        return CreateMediaCollectionFromResponse::fromResponse($response);
     }
 }
