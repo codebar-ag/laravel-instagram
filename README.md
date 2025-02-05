@@ -103,7 +103,11 @@ You should now create a cache store in your `config/cache.php` file:
 ],
 ````
 
-> Add `storage/instagram/` to your `.gitignore` file.
+Add the following to your `.gitignore` file:
+
+```bash
+/storage/instagram/
+```
 
 You should finally add the following to your .env file:
 
