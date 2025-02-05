@@ -16,6 +16,7 @@ This package is only designed to login with a single user account to display ins
   * [Navigation](#navigation)
   * [🛠 Requirements](#-requirements)
   * [Installation](#installation)
+  * [Creating a new Instagram App](#creating-a-new-instagram-app)
   * [Overriding the default routes](#overriding-the-default-routes)
   * [Usage](#usage)
     * [Authentication](#authentication)
