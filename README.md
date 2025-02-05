@@ -16,6 +16,7 @@ This package is only designed to login with a single user account to display ins
   * [Navigation](#navigation)
   * [🛠 Requirements](#-requirements)
   * [Installation](#installation)
+  * [Overriding the default routes](#overriding-the-default-routes)
   * [Usage](#usage)
     * [Authentication](#authentication)
     * [Getting the connector](#getting-the-connector)
@@ -89,6 +90,25 @@ INSTAGRAM_CLIENT_ID=your-client-id
 INSTAGRAM_CLIENT_SECRET=your-client-secret
 ```
 
+## Creating a new Instagram App
+
+To create a new Instagram App, you need to register your app on the [Facebook Developer Portal https://developers.facebook.com/apps/](https://developers.facebook.com/apps/)
+
+When asked for a use case select `Other`
+When asked for an app type select `Business`
+
+Once the app is created you need to add Instagram as a product to your app, you can do this by clicking on the `Add Product` button and selecting Instagram on the left side of the app dashboard.
+
+Then goto `API setup with Instagram Login`, goto `Step 3.` and click `Business login settings`.
+
+You will need to set the redirect uri to: `http://your-app-url.com/instagram/callback`
+
+You should also set the Deauthorize callback URL to: `http://your-app-url.com/instagram/deauthorize`
+
+You should also set the Deletion callback URL to: `http://your-app-url.com/instagram/delete`
+
+> NOTE: The links above need to be publicly accessible so you can use tools like NGROK or Expose to expose your local development environment to the internet. When using the tools, ensure you set your `APP_URL` in your `.env` file to the url provided by the tool.
+
 ## Overriding the default routes
 
 If you want to override the default routes, you can do so by creating a `instagram.php` file in your routes directory and adding the following code:
@@ -111,7 +131,6 @@ Then you should register the routes in your `bootstrap\app.php`:
 ```php
     ->withRouting(
         web: __DIR__ . '/../routes/web.php',
-        //        api: __DIR__ . '/../routes/api.php',
         then: function () {
             Route::middleware('web')->group(base_path('routes/instagram.php'));
         },
@@ -126,17 +145,6 @@ $this->routes(function () {
     Route::middleware('web')->group(base_path('routes/instagram.php'));
 });
 ```
-
-You can get your client id and client secret by registering your app on the [Instagram Developer Portal](https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login)
-
-When configuring your app on the Instagram Developer Portal, you will need to set the redirect uri to: `http://your-app-url.com/instagram/callback`
-
-You should also set the Deauthorize callback URL to: `http://your-app-url.com/instagram/deauthorize`
-
-You should also set the Deletion callback URL to: `http://your-app-url.com/instagram/delete`
-
-The links above need to be publicly accessible. You can use tools like [Expose](https://expose.dev/) or [ngrok](https://ngrok.com/) to expose your local development environment to the internet.
-When using the tools above, ensure you set your `APP_URL` in your `.env` file to the url provided by the tool.
 
 ## Usage
 
