@@ -81,14 +81,34 @@ return [
      * This is not the same as an access token.
      */
     'client_secret' => env('INSTAGRAM_CLIENT_SECRET', null),
+    
+    /*
+     * The cache_store to use for caching the authenticator and authenticated user.
+     * This should not be the same as your default cache store.
+     */
+    'cache_store' => env('INSTAGRAM_CACHE_STORE', env('CACHE_DRIVER', 'file')),
 ];
-
 ```
+
+You should now create a cache store in your `config/cache.php` file:
+
+> NOTE: This cache store should NOT be the same as your default cache store. If you use your default cache store, you will lose the Instagram Authentication when you clear your cache and the user will need to re-authenticate.
+
+> You can use any driver you like as long as it is different from your default cache store, or it has a separate table or path.
+
+```php
+'instagram' => [
+    'driver' => 'file',
+    'path' => storage_path('instagram/cache/data'),
+],
+````
+
 You should finally add the following to your .env file:
 
 ```env
 INSTAGRAM_CLIENT_ID=your-client-id
 INSTAGRAM_CLIENT_SECRET=your-client-secret
+INSTAGRAM_CACHE_STORE=instagram
 ```
 
 ## Creating a new Instagram App
