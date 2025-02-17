@@ -3,17 +3,11 @@
 namespace CodebarAg\LaravelInstagram\Connectors;
 
 use CodebarAg\LaravelInstagram\Authenticator\InstagramAuthenticator;
-use CodebarAg\LaravelInstagram\Requests\Authentication\GetAccessTokenRequest;
-use CodebarAg\LaravelInstagram\Requests\Authentication\GetShortLivedAccessTokenRequest;
+use CodebarAg\LaravelInstagram\Traits\AuthorizationCodeGrant;
 use DateTimeImmutable;
 use Saloon\Contracts\OAuthAuthenticator;
-use Saloon\Exceptions\InvalidStateException;
-use Saloon\Exceptions\OAuthConfigValidationException;
 use Saloon\Helpers\OAuth2\OAuthConfig;
 use Saloon\Http\Connector;
-use Saloon\Http\Request;
-use Saloon\Http\Response;
-use Saloon\Traits\OAuth2\AuthorizationCodeGrant;
 
 class InstagramConnector extends Connector
 {
@@ -60,52 +54,5 @@ class InstagramConnector extends Connector
             ->setAuthorizeEndpoint('https://www.instagram.com/oauth/authorize')
             ->setTokenEndpoint('https://api.instagram.com/oauth/access_token')
             ->setUserEndpoint('/me');
-    }
-
-    /**
-     * Get the short lived access token.
-     *
-     * @template TRequest of \Saloon\Http\Request
-     *
-     * @param  callable(TRequest): (void)|null  $requestModifier
-     *
-     * @throws \Saloon\Exceptions\InvalidStateException
-     * @throws OAuthConfigValidationException
-     */
-    public function getShortLivedAccessToken(string $code, ?string $state = null, ?string $expectedState = null, bool $returnResponse = false, ?callable $requestModifier = null): OAuthAuthenticator|Response
-    {
-        $this->oauthConfig()->validate();
-
-        if (! empty($state) && ! empty($expectedState) && $state !== $expectedState) {
-            throw new InvalidStateException;
-        }
-
-        $request = $this->resolveShortLivedAccessTokenRequest($code, $this->oauthConfig());
-
-        $request = $this->oauthConfig()->invokeRequestModifier($request);
-
-        if (is_callable($requestModifier)) {
-            $requestModifier($request);
-        }
-
-        $response = $this->send($request);
-
-        if ($returnResponse === true) {
-            return $response;
-        }
-
-        $response->throw();
-
-        return $this->createOAuthAuthenticatorFromResponse($response);
-    }
-
-    protected function resolveAccessTokenRequest(string $code, OAuthConfig $oauthConfig): Request
-    {
-        return new GetAccessTokenRequest($code, $oauthConfig);
-    }
-
-    protected function resolveShortLivedAccessTokenRequest(string $code, OAuthConfig $oauthConfig): Request
-    {
-        return new GetShortLivedAccessTokenRequest($code, $oauthConfig);
     }
 }

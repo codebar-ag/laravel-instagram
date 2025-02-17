@@ -3,6 +3,7 @@
 namespace CodebarAg\LaravelInstagram\Authenticator;
 
 use DateTimeImmutable;
+use Illuminate\Support\Carbon;
 use Saloon\Contracts\OAuthAuthenticator;
 use Saloon\Http\PendingRequest;
 
@@ -52,10 +53,12 @@ class InstagramAuthenticator implements OAuthAuthenticator
 
     /**
      * Get the refresh token
+     *
+     * @throws \Exception
      */
     public function getRefreshToken(): ?string
     {
-        return $this->refreshToken;
+        throw new \Exception('Instagram does not provide refresh tokens. use getAccessToken() instead.');
     }
 
     /**
@@ -71,7 +74,9 @@ class InstagramAuthenticator implements OAuthAuthenticator
      */
     public function isRefreshable(): bool
     {
-        return isset($this->refreshToken);
+        Carbon::createFromTimestamp($this->getExpiresAt()->getTimestamp())->diffInDays();
+
+        return now()->subHours(24)->gt($this->getExpiresAt());
     }
 
     /**
