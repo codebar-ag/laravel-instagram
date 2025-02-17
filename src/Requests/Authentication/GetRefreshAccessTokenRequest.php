@@ -36,7 +36,6 @@ class GetRefreshAccessTokenRequest extends Request
      * @return array{
      *     grant_type: string,
      *     access_token: string,
-     *     client_secret: string,
      * }
      */
     public function defaultQuery(): array
