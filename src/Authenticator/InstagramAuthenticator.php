@@ -74,9 +74,9 @@ class InstagramAuthenticator implements OAuthAuthenticator
      */
     public function isRefreshable(): bool
     {
-        Carbon::createFromTimestamp($this->getExpiresAt()->getTimestamp())->diffInDays();
+        $created = Carbon::createFromTimestamp($this->getExpiresAt()->getTimestamp())->subDays(60);
 
-        return now()->subHours(24)->gt($this->getExpiresAt());
+        return now()->diffInHours($created) > 24;
     }
 
     /**

@@ -41,7 +41,7 @@ class GetRefreshAccessTokenRequest extends Request
     public function defaultQuery(): array
     {
         return [
-            'grant_type' => 'ig_exchange_token',
+            'grant_type' => 'ig_refresh_token',
             'access_token' => $this->code,
         ];
     }

@@ -186,7 +186,6 @@ trait AuthorizationCodeGrant
         $responseData = $response->object();
 
         $accessToken = $responseData->access_token;
-        $refreshToken = $responseData->refresh_token ?? $fallbackRefreshToken;
 
         $expiresAt = null;
 
@@ -196,7 +195,7 @@ trait AuthorizationCodeGrant
             );
         }
 
-        return $this->createOAuthAuthenticator($accessToken, $refreshToken, $expiresAt);
+        return $this->createOAuthAuthenticator($accessToken, null, $expiresAt);
     }
 
     /**
