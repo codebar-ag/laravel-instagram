@@ -35,7 +35,7 @@ test('can getAccessToken', function () {
         ]),
         GetAccessTokenRequest::class => MockResponse::make([
             'access_token' => 'some_long_access_token',
-            'refresh_token' => 'some_refresh_token',
+            'refresh_token' => null,
             'expires_in' => 5184000,
         ]),
     ]);
@@ -61,7 +61,7 @@ test('can getAccessToken', function () {
     expect($authenticator)
         ->toBeInstanceOf(InstagramAuthenticator::class)
         ->accessToken->toBe('some_long_access_token')
-        ->refreshToken->toBe('some_refresh_token')
+        ->refreshToken->toBe(null)
         ->expiresAt->toBeInstanceOf(DateTimeImmutable::class)
         ->expiresAt->format('Y-m-d H:i:s')->toBe($date->format('Y-m-d H:i:s'));
 })->group('authorization');
