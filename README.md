@@ -1,9 +1,9 @@
-<img src="https://banners.beyondco.de/Laravel%20Instagram.png?theme=light&packageManager=composer+require&packageName=codebar-ag%2Flaravel-instagram&pattern=circuitBoard&style=style_1&description=An+opinionated+way+to+integrate+Instagram+with+Laravel&md=1&showWatermark=0&fontSize=175px&images=document-report">
+<img src="https://banners.beyondco.de/Laravel%20Instagram.png?theme=light&packageManager=composer+require&packageName=codebar-ag%2Flaravel-instagram&pattern=circuitBoard&style=style_1&description=An+opinionated+way+to+integrate+Instagram+with+Laravel&md=1&showWatermark=0&fontSize=175px&images=photograph">
 
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codebar-ag/laravel-instagram.svg?style=flat-square)](https://packagist.org/packages/codebar-ag/laravel-instagram)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/codebar-ag/laravel-instagram/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/codebar-ag/laravel-instagram/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/codebar-ag/laravel-instagram/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/codebar-ag/laravel-instagram/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![GitHub-Tests](https://github.com/codebar-ag/laravel-instagram/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/codebar-ag/laravel-instagram/actions/workflows/run-tests.yml)
+[![GitHub Code Style](https://github.com/codebar-ag/laravel-instagram/actions/workflows/fix-php-code-style-issues.yml/badge.svg?branch=main)](https://github.com/codebar-ag/laravel-instagram/actions/workflows/fix-php-code-style-issues.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/codebar-ag/laravel-instagram.svg?style=flat-square)](https://packagist.org/packages/codebar-ag/laravel-instagram)
 
 This package was developed to give you a quick start to communicate with the
@@ -39,7 +39,8 @@ This package is only designed to login with a single user account to display ins
 
 | Version | PHP Version | Laravel Version |
 |---------|-------------|-----------------|
-| > v11.0 | ^8.3        | ^11.*           |
+| v12.0.0 | ^8.2 - ^8.4 | ^12.*           |
+| v11.0.0 | ^8.2 - ^8.3 | ^11.*           |
 
 ## Installation
 
