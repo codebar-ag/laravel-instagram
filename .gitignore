@@ -1,7 +1,6 @@
 .idea
 .phpunit.result.cache
 .phpunit.cache
-build
 composer.lock
 coverage
 phpunit.xml
@@ -10,4 +9,4 @@ testbench.yaml
 vendor
 node_modules
 .phpactor.json
-
+build
