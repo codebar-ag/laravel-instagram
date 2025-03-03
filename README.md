@@ -2,9 +2,11 @@
 
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codebar-ag/laravel-instagram.svg?style=flat-square)](https://packagist.org/packages/codebar-ag/laravel-instagram)
+[![Total Downloads](https://img.shields.io/packagist/dt/codebar-ag/laravel-instagram.svg?style=flat-square)](https://packagist.org/packages/codebar-ag/laravel-instagram)
 [![GitHub-Tests](https://github.com/codebar-ag/laravel-instagram/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/codebar-ag/laravel-instagram/actions/workflows/run-tests.yml)
 [![GitHub Code Style](https://github.com/codebar-ag/laravel-instagram/actions/workflows/fix-php-code-style-issues.yml/badge.svg?branch=main)](https://github.com/codebar-ag/laravel-instagram/actions/workflows/fix-php-code-style-issues.yml)
-[![Total Downloads](https://img.shields.io/packagist/dt/codebar-ag/laravel-instagram.svg?style=flat-square)](https://packagist.org/packages/codebar-ag/laravel-instagram)
+[![PHPStan](https://github.com/codebar-ag/laravel-instagram/actions/workflows/phpstan.yml/badge.svg)](https://github.com/codebar-ag/laravel-instagram/actions/workflows/phpstan.yml)
+[![Dependency Review](https://github.com/codebar-ag/laravel-instagram/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/codebar-ag/laravel-instagram/actions/workflows/dependency-review.yml)
 
 This package was developed to give you a quick start to communicate with the
 Instagram Api. It is used to query the most common endpoints.
