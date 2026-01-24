@@ -28,12 +28,12 @@ class InstagramController
      */
     public function callback(Request $request)
     {
-        if (! $request->has('code')) {
+        if (! $request->query->has('code')) {
             abort(403, 'Invalid request');
         }
 
         $connector = new InstagramConnector;
-        $shortLivedAuthenticator = $connector->getShortLivedAccessToken(code: $request->get('code'));
+        $shortLivedAuthenticator = $connector->getShortLivedAccessToken(code: $request->query->get('code'));
         $authenticator = $connector->getAccessToken(code: $shortLivedAuthenticator->accessToken); // @phpstan-ignore-line
         $serialized = $authenticator->serialize(); // @phpstan-ignore-line
 
