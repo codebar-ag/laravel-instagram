@@ -41,7 +41,7 @@ This package is only designed to login with a single user account to display ins
 
 | Version | PHP Version | Laravel Version |
 |---------|-------------|-----------------|
-| v12.0.0 | ^8.2 - ^8.5 | ^12.*           |
+| v12.0.0 | ^8.2 - ^8.4 | ^12.*           |
 | v11.0.0 | ^8.2 - ^8.3 | ^11.*           |
 
 ## Installation
