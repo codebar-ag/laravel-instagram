@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CodebarAg\LaravelInstagram\Traits;
 
+use CodebarAg\LaravelInstagram\Requests\Authentication\GetAccessTokenRequest;
 use CodebarAg\LaravelInstagram\Requests\Authentication\GetRefreshAccessTokenRequest;
 use CodebarAg\LaravelInstagram\Requests\Authentication\GetShortLivedAccessTokenRequest;
 use DateInterval;
@@ -74,7 +75,7 @@ trait AuthorizationCodeGrant
      *
      * @param  callable(TRequest): (void)|null  $requestModifier
      *
-     * @throws \Saloon\Exceptions\InvalidStateException
+     * @throws InvalidStateException
      */
     public function getAccessToken(string $code, ?string $state = null, ?string $expectedState = null, bool $returnResponse = false, ?callable $requestModifier = null): OAuthAuthenticator|Response
     {
@@ -110,7 +111,7 @@ trait AuthorizationCodeGrant
      *
      * @param  callable(TRequest): (void)|null  $requestModifier
      *
-     * @throws \Saloon\Exceptions\InvalidStateException
+     * @throws InvalidStateException
      * @throws OAuthConfigValidationException
      */
     public function getShortLivedAccessToken(string $code, ?string $state = null, ?string $expectedState = null, bool $returnResponse = false, ?callable $requestModifier = null): OAuthAuthenticator|Response
@@ -244,7 +245,7 @@ trait AuthorizationCodeGrant
 
     protected function resolveAccessTokenRequest(string $code, OAuthConfig $oauthConfig): Request
     {
-        return new \CodebarAg\LaravelInstagram\Requests\Authentication\GetAccessTokenRequest($code, $oauthConfig);
+        return new GetAccessTokenRequest($code, $oauthConfig);
     }
 
     protected function resolveShortLivedAccessTokenRequest(string $code, OAuthConfig $oauthConfig): Request
