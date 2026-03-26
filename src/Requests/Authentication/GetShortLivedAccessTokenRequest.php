@@ -16,6 +16,8 @@ class GetShortLivedAccessTokenRequest extends Request implements HasBody
     use AcceptsJson;
     use HasFormBody;
 
+    public ?bool $allowBaseUrlOverride = true;
+
     /**
      * Define the method that the request will use.
      */

@@ -61,7 +61,7 @@ trait AuthorizationCodeGrant
         $query = http_build_query($queryParameters, '', '&', PHP_QUERY_RFC3986);
         $query = trim($query, '?&');
 
-        $url = URLHelper::join($this->resolveBaseUrl(), $config->getAuthorizeEndpoint());
+        $url = URLHelper::join($this->resolveBaseUrl(), $config->getAuthorizeEndpoint(), $config->getAllowBaseUrlOverride());
 
         $glue = str_contains($url, '?') ? '&' : '?';
 

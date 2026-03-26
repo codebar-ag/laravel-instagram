@@ -28,15 +28,15 @@ class InstagramHandler
             throw new \Exception('No authenticator found. Please authenticate first.');
         }
 
-        $authenticator = InstagramAuthenticator::unserialize($serialized);
+        $authenticator = InstagramAuthenticator::decodeFromCache($serialized);
 
         $connector = new InstagramConnector;
 
         if ($authenticator->hasExpired()) {
             $authenticator = $connector->refreshAccessToken($authenticator);
 
-            // @phpstan-ignore-next-line
-            Cache::store(config('instagram.cache_store'))->put('instagram.authenticator', $authenticator->serialize(), now()->addDays(60));
+            assert($authenticator instanceof InstagramAuthenticator);
+            Cache::store(config('instagram.cache_store'))->put('instagram.authenticator', $authenticator->encodeForCache(), now()->addDays(60));
         }
 
         $connector->authenticate($authenticator);

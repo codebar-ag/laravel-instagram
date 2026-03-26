@@ -53,6 +53,7 @@ class InstagramConnector extends Connector
             ->setRedirectUri(route('instagram.callback'))
             ->setAuthorizeEndpoint('https://www.instagram.com/oauth/authorize')
             ->setTokenEndpoint('https://api.instagram.com/oauth/access_token')
+            ->setAllowBaseUrlOverride()
             ->setUserEndpoint('/me');
     }
 }

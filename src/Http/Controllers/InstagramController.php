@@ -3,6 +3,7 @@
 namespace CodebarAg\LaravelInstagram\Http\Controllers;
 
 use CodebarAg\LaravelInstagram\Actions\InstagramHandler;
+use CodebarAg\LaravelInstagram\Authenticator\InstagramAuthenticator;
 use CodebarAg\LaravelInstagram\Connectors\InstagramConnector;
 use CodebarAg\LaravelInstagram\Requests\GetInstagramMe;
 use Illuminate\Http\Request;
@@ -35,9 +36,10 @@ class InstagramController
         $connector = new InstagramConnector;
         $shortLivedAuthenticator = $connector->getShortLivedAccessToken(code: $request->query->get('code'));
         $authenticator = $connector->getAccessToken(code: $shortLivedAuthenticator->accessToken); // @phpstan-ignore-line
-        $serialized = $authenticator->serialize(); // @phpstan-ignore-line
+        assert($authenticator instanceof InstagramAuthenticator);
+        $cachePayload = $authenticator->encodeForCache();
 
-        Cache::store(config('instagram.cache_store'))->put('instagram.authenticator', $serialized, now()->addDays(60));
+        Cache::store(config('instagram.cache_store'))->put('instagram.authenticator', $cachePayload, now()->addDays(60));
 
         $connector = InstagramHandler::connector();
         $request = new GetInstagramMe;
