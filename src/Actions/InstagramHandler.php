@@ -6,12 +6,14 @@ use CodebarAg\LaravelInstagram\Authenticator\InstagramAuthenticator;
 use CodebarAg\LaravelInstagram\Connectors\InstagramConnector;
 use CodebarAg\LaravelInstagram\Data\InstagramUser;
 use Illuminate\Support\Facades\Cache;
-use Psr\SimpleCache\InvalidArgumentException;
+use InvalidArgumentException;
+use JsonException;
+use Psr\SimpleCache\InvalidArgumentException as CacheInvalidArgumentException;
 
 class InstagramHandler
 {
     /**
-     * @throws InvalidArgumentException
+     * @throws CacheInvalidArgumentException
      * @throws \Exception
      */
     public static function connector(): InstagramConnector
@@ -28,7 +30,13 @@ class InstagramHandler
             throw new \Exception('No authenticator found. Please authenticate first.');
         }
 
-        $authenticator = InstagramAuthenticator::decodeFromCache($serialized);
+        try {
+            $authenticator = InstagramAuthenticator::decodeFromCache($serialized);
+        } catch (JsonException|InvalidArgumentException) {
+            Cache::store(config('instagram.cache_store'))->forget('instagram.authenticator');
+
+            throw new \Exception('No authenticator found. Please authenticate first.');
+        }
 
         $connector = new InstagramConnector;
 
