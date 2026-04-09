@@ -13,6 +13,8 @@ class GetAccessTokenRequest extends Request
 {
     use AcceptsJson;
 
+    public ?bool $allowBaseUrlOverride = true;
+
     /**
      * Define the method that the request will use.
      */

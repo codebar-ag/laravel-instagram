@@ -4,6 +4,7 @@ namespace CodebarAg\LaravelInstagram\Authenticator;
 
 use DateTimeImmutable;
 use Illuminate\Support\Carbon;
+use JsonException;
 use Saloon\Contracts\OAuthAuthenticator;
 use Saloon\Http\PendingRequest;
 
@@ -88,18 +89,52 @@ class InstagramAuthenticator implements OAuthAuthenticator
     }
 
     /**
-     * Serialize the access token.
+     * Encode for cache storage (JSON). Replaces PHP serialize, which is unsafe and unsupported with Saloon v4+.
+     *
+     * @throws JsonException
      */
-    public function serialize(): string
+    public function encodeForCache(): string
     {
-        return serialize($this);
+        return json_encode([
+            'accessToken' => $this->accessToken,
+            'refreshToken' => $this->refreshToken,
+            'expiresAt' => $this->expiresAt?->format(DATE_ATOM),
+        ], JSON_THROW_ON_ERROR);
     }
 
     /**
-     * Unserialize the access token.
+     * Restore from cache. Supports JSON (current) and legacy PHP-serialized payloads for one-time migration.
+     *
+     * @throws JsonException
      */
-    public static function unserialize(string $string): static
+    public static function decodeFromCache(string $payload): static
     {
-        return unserialize($string, ['allowed_classes' => true]);
+        $trimmed = ltrim($payload);
+
+        if ($trimmed !== '' && $trimmed[0] === '{') {
+            $data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
+            $expiresAt = isset($data['expiresAt']) && is_string($data['expiresAt']) && $data['expiresAt'] !== ''
+                ? new DateTimeImmutable($data['expiresAt'])
+                : null;
+
+            return new static(
+                $data['accessToken'],
+                $data['refreshToken'] ?? null,
+                $expiresAt,
+            );
+        }
+
+        $legacy = unserialize($payload, [
+            'allowed_classes' => [
+                static::class,
+                DateTimeImmutable::class,
+            ],
+        ]);
+
+        if (! $legacy instanceof static) {
+            throw new \InvalidArgumentException('Invalid cached Instagram authenticator payload.');
+        }
+
+        return $legacy;
     }
 }
