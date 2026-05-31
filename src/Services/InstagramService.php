@@ -7,6 +7,7 @@ use CodebarAg\LaravelInstagram\Connectors\InstagramConnector;
 use CodebarAg\LaravelInstagram\Contracts\InstagramHandlerContract;
 use CodebarAg\LaravelInstagram\Data\InstagramUser;
 use CodebarAg\LaravelInstagram\Exceptions\InstagramAuthenticationException;
+use CodebarAg\LaravelInstagram\Exceptions\InstagramResponseException;
 use Illuminate\Support\Facades\Cache;
 use InvalidArgumentException;
 use JsonException;
@@ -28,7 +29,7 @@ class InstagramService implements InstagramHandlerContract
 
         $serialized = $store->get('instagram.authenticator');
 
-        if (empty($serialized)) {
+        if (! is_string($serialized) || $serialized === '') {
             $store->forget('instagram.authenticator');
 
             throw new InstagramAuthenticationException('No authenticator found. Please authenticate first.');
@@ -69,12 +70,18 @@ class InstagramService implements InstagramHandlerContract
 
         $cachedUser = $store->get('instagram.authenticated');
 
-        if (empty($cachedUser)) {
+        if (! is_array($cachedUser) || $cachedUser === []) {
             $store->forget('instagram.authenticated');
 
             throw new InstagramAuthenticationException('No authenticated user found. Please authenticate first.');
         }
 
-        return InstagramUser::make($cachedUser);
+        try {
+            return InstagramUser::make($cachedUser);
+        } catch (InstagramResponseException) {
+            $store->forget('instagram.authenticated');
+
+            throw new InstagramAuthenticationException('No authenticated user found. Please authenticate first.');
+        }
     }
 }
