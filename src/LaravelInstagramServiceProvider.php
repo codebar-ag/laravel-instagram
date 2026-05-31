@@ -2,12 +2,19 @@
 
 namespace CodebarAg\LaravelInstagram;
 
+use CodebarAg\LaravelInstagram\Contracts\InstagramHandlerContract;
+use CodebarAg\LaravelInstagram\Services\InstagramService;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class LaravelInstagramServiceProvider extends PackageServiceProvider
 {
+    public function packageRegistered(): void
+    {
+        $this->app->singleton(InstagramHandlerContract::class, InstagramService::class);
+    }
+
     public function configurePackage(Package $package): void
     {
         /*

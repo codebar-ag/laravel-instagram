@@ -2,6 +2,7 @@
 
 namespace CodebarAg\LaravelInstagram\Authenticator;
 
+use CodebarAg\LaravelInstagram\Exceptions\InstagramException;
 use DateTimeImmutable;
 use Illuminate\Support\Carbon;
 use InvalidArgumentException;
@@ -56,11 +57,11 @@ class InstagramAuthenticator implements OAuthAuthenticator
     /**
      * Get the refresh token
      *
-     * @throws \Exception
+     * @throws InstagramException
      */
     public function getRefreshToken(): ?string
     {
-        throw new \Exception('Instagram does not provide refresh tokens. use getAccessToken() instead.');
+        throw new InstagramException('Instagram does not provide refresh tokens. use getAccessToken() instead.');
     }
 
     /**
@@ -137,22 +138,6 @@ class InstagramAuthenticator implements OAuthAuthenticator
         }
 
         return $legacy;
-    }
-
-    /**
-     * @deprecated Use encodeForCache() instead.
-     */
-    public function serialize(): string
-    {
-        return $this->encodeForCache();
-    }
-
-    /**
-     * @deprecated Use decodeFromCache() instead.
-     */
-    public static function unserialize(string $string): InstagramAuthenticator
-    {
-        return static::decodeFromCache($string);
     }
 
     /**

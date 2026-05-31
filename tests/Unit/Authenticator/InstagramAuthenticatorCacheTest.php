@@ -33,16 +33,6 @@ test('decodeFromCache reads legacy PHP serialized payload', function () {
         ->and($decoded->expiresAt->format('Y-m-d'))->toBe('2020-01-01');
 });
 
-test('deprecated serialize and unserialize delegate to JSON cache API', function () {
-    $original = new InstagramAuthenticator('tok', null, null);
-
-    $encoded = $original->serialize();
-    expect($encoded)->toBe($original->encodeForCache());
-
-    $decoded = InstagramAuthenticator::unserialize($encoded);
-    expect($decoded->accessToken)->toBe('tok');
-});
-
 test('decodeFromCache throws JsonException for invalid JSON', function () {
     expect(fn () => InstagramAuthenticator::decodeFromCache('{'))
         ->toThrow(JsonException::class);

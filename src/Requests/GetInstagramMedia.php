@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CodebarAg\LaravelInstagram\Requests;
 
 use CodebarAg\LaravelInstagram\Actions\InstagramHandler;
+use CodebarAg\LaravelInstagram\Exceptions\InstagramAuthenticationException;
 use CodebarAg\LaravelInstagram\Responses\CreateMediaCollectionFromResponse;
 use Illuminate\Support\Collection;
 use Saloon\Enums\Method;
@@ -20,11 +21,11 @@ class GetInstagramMedia extends Request
 
     public function __construct(
         protected bool $withChildren = true,
-        protected mixed $user_id = null,
+        protected ?string $user_id = null,
     ) {}
 
     /**
-     * @throws \Exception
+     * @throws InstagramAuthenticationException
      */
     public function resolveEndpoint(): string
     {

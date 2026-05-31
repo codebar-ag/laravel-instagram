@@ -3,13 +3,23 @@
 namespace CodebarAg\LaravelInstagram\Data;
 
 use Carbon\CarbonImmutable;
+use CodebarAg\LaravelInstagram\Exceptions\InstagramResponseException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 final class InstagramImage
 {
+    /**
+     * @throws InstagramResponseException
+     */
     public static function make(array $data): self
     {
+        foreach (['id', 'media_type', 'media_url', 'permalink', 'timestamp', 'username'] as $field) {
+            if (! Arr::has($data, $field)) {
+                throw new InstagramResponseException("Missing required field [{$field}] in Instagram media response.");
+            }
+        }
+
         return new self(
             id: Arr::get($data, 'id'),
             media_type: Arr::get($data, 'media_type'),
