@@ -41,11 +41,11 @@ jobs:
           composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
-      - name: Execute tests
+      - name: Prepare PHPUnit config
         run: cp phpunit.xml.dist phpunit.xml
 
       - name: Execute tests
-        run: vendor/bin/pest
+        run: vendor/bin/pest --no-coverage
 
       - name: Store Log Artifacts
         if: failure()
