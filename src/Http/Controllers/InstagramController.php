@@ -35,7 +35,8 @@ class InstagramController
 
         $connector = new InstagramConnector;
         $shortLivedAuthenticator = $connector->getShortLivedAccessToken(code: $request->query->get('code'));
-        $authenticator = $connector->getAccessToken(code: $shortLivedAuthenticator->accessToken); // @phpstan-ignore-line
+        assert($shortLivedAuthenticator instanceof InstagramAuthenticator);
+        $authenticator = $connector->getAccessToken(code: $shortLivedAuthenticator->accessToken);
         assert($authenticator instanceof InstagramAuthenticator);
         $cachePayload = $authenticator->encodeForCache();
 

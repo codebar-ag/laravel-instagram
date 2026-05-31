@@ -41,6 +41,7 @@ This package is only designed to login with a single user account to display ins
 
 | Version | PHP Version | Laravel Version |
 |---------|-------------|-----------------|
+| v13.0.0 | ^8.3 - ^8.5 | ^13.*           |
 | v12.0.0 | ^8.2 - ^8.4 | ^12.*           |
 | v11.0.0 | ^8.2 - ^8.3 | ^11.*           |
 
@@ -180,7 +181,7 @@ $this->routes(function () {
 
 ### Authentication
 
-To authenticate with the instagram api, you need to redirect the user to the following named route `instagram.login` or use the path `/instagram/login`.
+To authenticate with the instagram api, you need to redirect the user to the following named route `instagram.auth` or use the path `/instagram/auth`.
 
 This will redirect the user to the Instagram login page, where they will be asked to authorize your app to access their account.
 
@@ -192,6 +193,19 @@ After the user has authorized your app, they will be redirected back to your app
 use CodebarAg\LaravelInstagram\Actions\InstagramHandler;
 
 $connector = InstagramHandler::connector(); // returns an instance of \CodebarAg\LaravelInstagram\Connectors\InstagramConnector
+```
+
+Prefer dependency injection? The handler is bound to the
+`CodebarAg\LaravelInstagram\Contracts\InstagramHandlerContract` interface in the
+container, so you can inject (and mock) it directly:
+
+```php
+use CodebarAg\LaravelInstagram\Contracts\InstagramHandlerContract;
+
+public function __construct(private InstagramHandlerContract $instagram) {}
+
+$connector = $this->instagram->connector();
+$user = $this->instagram->user();
 ```
 
 ### Getting the user

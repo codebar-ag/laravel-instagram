@@ -2,12 +2,22 @@
 
 namespace CodebarAg\LaravelInstagram\Data;
 
+use CodebarAg\LaravelInstagram\Exceptions\InstagramResponseException;
 use Illuminate\Support\Arr;
 
 final class InstagramUser
 {
+    /**
+     * @throws InstagramResponseException
+     */
     public static function make(array $data): self
     {
+        foreach (['id', 'user_id', 'username', 'name', 'account_type', 'followers_count', 'follows_count', 'media_count'] as $field) {
+            if (! Arr::has($data, $field)) {
+                throw new InstagramResponseException("Missing required field [{$field}] in Instagram user response.");
+            }
+        }
+
         return new self(
             id: Arr::get($data, 'id'),
             user_id: Arr::get($data, 'user_id'),

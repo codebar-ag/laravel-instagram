@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CodebarAg\LaravelInstagram\Traits;
 
+use CodebarAg\LaravelInstagram\Exceptions\InstagramResponseException;
 use CodebarAg\LaravelInstagram\Requests\Authentication\GetAccessTokenRequest;
 use CodebarAg\LaravelInstagram\Requests\Authentication\GetRefreshAccessTokenRequest;
 use CodebarAg\LaravelInstagram\Requests\Authentication\GetShortLivedAccessTokenRequest;
@@ -181,10 +182,16 @@ trait AuthorizationCodeGrant
 
     /**
      * Create the OAuthAuthenticator from a response.
+     *
+     * @throws InstagramResponseException
      */
     protected function createOAuthAuthenticatorFromResponse(Response $response, ?string $fallbackRefreshToken = null): OAuthAuthenticator
     {
         $responseData = $response->object();
+
+        if (! is_object($responseData) || ! isset($responseData->access_token) || ! is_string($responseData->access_token) || $responseData->access_token === '') {
+            throw new InstagramResponseException('No access token found in the Instagram OAuth response.');
+        }
 
         $accessToken = $responseData->access_token;
 

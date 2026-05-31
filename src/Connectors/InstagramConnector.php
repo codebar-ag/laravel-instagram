@@ -3,6 +3,7 @@
 namespace CodebarAg\LaravelInstagram\Connectors;
 
 use CodebarAg\LaravelInstagram\Authenticator\InstagramAuthenticator;
+use CodebarAg\LaravelInstagram\Exceptions\InstagramConfigurationException;
 use CodebarAg\LaravelInstagram\Traits\AuthorizationCodeGrant;
 use DateTimeImmutable;
 use Saloon\Contracts\OAuthAuthenticator;
@@ -43,7 +44,7 @@ class InstagramConnector extends Connector
         ];
 
         if (empty($clientId) || empty($clientSecret)) {
-            throw new \Exception('INSTAGRAM_CLIENT_ID and/or INSTAGRAM_CLIENT_SECRET must be set in the config file');
+            throw new InstagramConfigurationException('INSTAGRAM_CLIENT_ID and/or INSTAGRAM_CLIENT_SECRET must be set in the config file');
         }
 
         return OAuthConfig::make()

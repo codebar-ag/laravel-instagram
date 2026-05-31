@@ -3,6 +3,7 @@
 namespace CodebarAg\LaravelInstagram\Responses;
 
 use CodebarAg\LaravelInstagram\Data\InstagramUser;
+use CodebarAg\LaravelInstagram\Exceptions\InstagramResponseException;
 use Saloon\Http\Response;
 
 final class CreateInstagramUserFromResponse
@@ -11,10 +12,8 @@ final class CreateInstagramUserFromResponse
     {
         $data = $response->json();
 
-        ray($data);
-
         if (! $data) {
-            throw new \Exception('No data found in response');
+            throw new InstagramResponseException('No data found in response');
         }
 
         return InstagramUser::make($data);

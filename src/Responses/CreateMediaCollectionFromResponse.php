@@ -3,6 +3,7 @@
 namespace CodebarAg\LaravelInstagram\Responses;
 
 use CodebarAg\LaravelInstagram\Data\InstagramImage;
+use CodebarAg\LaravelInstagram\Exceptions\InstagramResponseException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Saloon\Http\Response;
@@ -14,7 +15,7 @@ final class CreateMediaCollectionFromResponse
         $data = Arr::get($response->json(), 'data');
 
         if (! $data) {
-            throw new \Exception('No data found in response');
+            throw new InstagramResponseException('No data found in response');
         }
 
         return collect($data)->map(fn (array $dataImage) => InstagramImage::make($dataImage));

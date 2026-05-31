@@ -2,62 +2,33 @@
 
 namespace CodebarAg\LaravelInstagram\Actions;
 
-use CodebarAg\LaravelInstagram\Authenticator\InstagramAuthenticator;
 use CodebarAg\LaravelInstagram\Connectors\InstagramConnector;
+use CodebarAg\LaravelInstagram\Contracts\InstagramHandlerContract;
 use CodebarAg\LaravelInstagram\Data\InstagramUser;
-use Illuminate\Support\Facades\Cache;
+use CodebarAg\LaravelInstagram\Exceptions\InstagramAuthenticationException;
 use Psr\SimpleCache\InvalidArgumentException;
 
+/**
+ * Convenience static facade over the container-bound {@see InstagramHandlerContract}.
+ *
+ * Inject {@see InstagramHandlerContract} directly when you need a mockable dependency.
+ */
 class InstagramHandler
 {
     /**
+     * @throws InstagramAuthenticationException
      * @throws InvalidArgumentException
-     * @throws \Exception
      */
     public static function connector(): InstagramConnector
     {
-        if (! Cache::store(config('instagram.cache_store'))->has('instagram.authenticator')) {
-            throw new \Exception('No authenticator found. Please authenticate first.');
-        }
-
-        $serialized = Cache::store(config('instagram.cache_store'))->get('instagram.authenticator');
-
-        if (empty($serialized)) {
-            Cache::store(config('instagram.cache_store'))->forget('instagram.authenticator');
-
-            throw new \Exception('No authenticator found. Please authenticate first.');
-        }
-
-        $authenticator = InstagramAuthenticator::decodeFromCache($serialized);
-
-        $connector = new InstagramConnector;
-
-        if ($authenticator->hasExpired()) {
-            $authenticator = $connector->refreshAccessToken($authenticator);
-
-            assert($authenticator instanceof InstagramAuthenticator);
-            Cache::store(config('instagram.cache_store'))->put('instagram.authenticator', $authenticator->encodeForCache(), now()->addDays(60));
-        }
-
-        $connector->authenticate($authenticator);
-
-        return $connector;
+        return app(InstagramHandlerContract::class)->connector();
     }
 
+    /**
+     * @throws InstagramAuthenticationException
+     */
     public static function user(): InstagramUser
     {
-        if (! Cache::store(config('instagram.cache_store'))->has('instagram.authenticated')) {
-            throw new \Exception('No authenticated user found. Please authenticate first.');
-        }
-
-        if (empty(Cache::store(config('instagram.cache_store'))->get('instagram.authenticated'))) {
-            Cache::store(config('instagram.cache_store'))->forget('instagram.authenticated');
-
-            throw new \Exception('No authenticated user found. Please authenticate first.');
-        }
-
-        $cachedUser = Cache::store(config('instagram.cache_store'))->get('instagram.authenticated');
-
-        return InstagramUser::make($cachedUser);
+        return app(InstagramHandlerContract::class)->user();
     }
 }
