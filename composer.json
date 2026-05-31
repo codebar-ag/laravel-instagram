@@ -27,14 +27,14 @@
         "saloonphp/saloon": "^4.0"
     },
     "require-dev": {
-        "laravel/pint": "^1.21",
-        "larastan/larastan": "^3.9",
+        "laravel/pint": "^1.29",
+        "larastan/larastan": "^3.10",
         "orchestra/testbench": "^11.0",
-        "pestphp/pest": "^3.8",
+        "pestphp/pest": "^4.0",
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpstan/phpstan-phpunit": "^2.0",
-        "spatie/laravel-ray": "^1.39"
+        "spatie/laravel-ray": "^1.43"
     },
     "autoload": {
         "psr-4": {
@@ -51,7 +51,7 @@
         "post-autoload-dump": "@composer run prepare",
         "prepare": "@php vendor/bin/testbench package:discover --ansi",
         "analyse": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/pest",
+        "test": "vendor/bin/pest --no-coverage",
         "test-coverage": "vendor/bin/pest --coverage",
         "format": "vendor/bin/pint"
     },
