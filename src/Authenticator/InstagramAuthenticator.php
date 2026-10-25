@@ -77,9 +77,17 @@ class InstagramAuthenticator implements OAuthAuthenticator
      */
     public function isRefreshable(): bool
     {
-        $created = Carbon::createFromTimestamp($this->getExpiresAt()->getTimestamp())->subDays(60);
+        $expiresAt = $this->getExpiresAt();
 
-        return now()->diffInHours($created) > 24;
+        if (is_null($expiresAt)) {
+            return false;
+        }
+
+        $created = Carbon::createFromTimestamp($expiresAt->getTimestamp())->subDays(60);
+
+        // Instagram only allows refreshing long-lived tokens that are at least 24 hours old.
+        // Carbon 3 returns signed differences, so measure from the creation time to now.
+        return $created->diffInHours(now()) > 24;
     }
 
     /**
